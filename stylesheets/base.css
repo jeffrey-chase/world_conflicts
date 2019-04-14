@@ -1,0 +1,21 @@
+body {
+  background: black;
+  font-family: 'Helvetica Neue'
+}
+
+svg {
+  border: 2px solid black;
+  margin: 0 auto;
+  width: 90%;
+}
+
+text {
+  fill: white;
+  font-size: 0.5em;
+}
+
+div {
+  display: flex;
+  margin: auto;
+  width: 100%;
+}
