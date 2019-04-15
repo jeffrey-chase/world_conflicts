@@ -7,7 +7,7 @@ let svg_conflict = d3.select('#conflict-graph')
   .attr('height', height);
 
 
-let simulation = d3.forceSimulation().alpha(0.5)
+let simulation = d3.forceSimulation().alpha(0.7)
   .force('link', d3.forceLink().id((d) => {
     return d.id;
   }))
@@ -33,7 +33,7 @@ let graph = function (data) {
     .domain(d3.extent(conflicts.map((d) => {
       return +d.value
     })))
-    .range([0.5, 5]);
+    .range([2, 7]);
 
   let nodeColor = d3.scaleLog()
     .domain(d3.extent(conflicts.map((d) => {
@@ -72,29 +72,27 @@ let graph = function (data) {
     .attr('class', 'conflict')
     .attr('fill', 'none')
     .attr('stroke-width', getLinkSize)
-    .attr('stroke', '#ff0000')
+    .attr('stroke', '#dd8833')
     .style('opacity', 0)
 
   links.transition()
-    .style('opacity', 1)
-    .attr('stroke', '#dd8833')
+    .style('opacity', 0.7)
+    .attr('stroke', '#ff0000')
     .delay(function (d, i) {
-      return i * 10;
+      return i * 15;
     })
-    .duration(2000);
-
-
-
+    .duration(2000).ease(d3.easeLinear);
+  
   let nodes = svg_conflict.append('g')
     .attr('class', 'nodes')
     .selectAll("g.nodes")
     .data(countries)
-    .enter().append("g");
-
+    .enter().append("g")
+    .attr('fill', 'white');
 
   let circles = nodes.append('circle')
-    .attr('r', 5)
-    .attr('fill', '#333344')
+    .attr('r', 0.5)
+    .attr('fill', 'white')
     .attr('stroke', '#80808A')
     .call(d3.drag()
       .on("start", dragstarted)
@@ -102,6 +100,13 @@ let graph = function (data) {
       .on("end", dragended)
       )
 
+  circles.transition()
+    .attr('fill', '#333344')
+    .attr('r', 6)
+    .delay(function(d,i){
+    return 15*i;
+  })
+    .duration(500);
 
   let labels = nodes.append('text')
     .attr('class', 'graph-labels')
@@ -113,7 +118,7 @@ let graph = function (data) {
         return '';
       };
     })
-    .attr('x', 6)
+    .attr('x', 10)
     .attr('y', 3);
 
   function ticked() {
@@ -156,7 +161,7 @@ let graph = function (data) {
       if (!d3.event.active) simulation.alphaTarget(0.1).restart();
       d3.event.subject.fx = d3.event.subject.x;
       d3.event.subject.fy = d3.event.subject.y;
-      simulation.force('charge', d3.forceManyBody().strength(2))
+      simulation.force('charge', d3.forceManyBody().strength(0))
     }
 
   function dragged(d) {
@@ -169,7 +174,6 @@ let graph = function (data) {
     d3.event.subject.fx = null;
     d3.event.subject.fy = null;
     simulation.force('charge', d3.forceManyBody().strength(-15))
-
   }
 
 };
