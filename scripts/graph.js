@@ -64,6 +64,12 @@ let graph = function (data) {
   //    .style('opacity', 0)
 
 
+  svg_conflict.call(
+  d3.zoom().on('zoom', () => {
+      svg_conflict.selectAll('g.links, g.nodes').attr('transform', d3.event.transform);
+  }))
+
+
   let links = svg_conflict.append('g')
     .attr('class', 'links')
     .selectAll("line.conflict")
@@ -82,7 +88,7 @@ let graph = function (data) {
       return i * 15;
     })
     .duration(2000).ease(d3.easeLinear);
-  
+
   let nodes = svg_conflict.append('g')
     .attr('class', 'nodes')
     .selectAll("g.nodes")
@@ -98,14 +104,14 @@ let graph = function (data) {
       .on("start", dragstarted)
       .on("drag", dragged)
       .on("end", dragended)
-      )
+    )
 
   circles.transition()
     .attr('fill', '#333344')
     .attr('r', 6)
-    .delay(function(d,i){
-    return 15*i;
-  })
+    .delay(function (d, i) {
+      return 15 * i;
+    })
     .duration(500);
 
   let labels = nodes.append('text')
@@ -157,12 +163,12 @@ let graph = function (data) {
   simulation.force('link').links(conflicts);
 
 
-    function dragstarted() {
-      if (!d3.event.active) simulation.alphaTarget(0.1).restart();
-      d3.event.subject.fx = d3.event.subject.x;
-      d3.event.subject.fy = d3.event.subject.y;
-      simulation.force('charge', d3.forceManyBody().strength(0))
-    }
+  function dragstarted() {
+    if (!d3.event.active) simulation.alphaTarget(0.1).restart();
+    d3.event.subject.fx = d3.event.subject.x;
+    d3.event.subject.fy = d3.event.subject.y;
+    simulation.force('charge', d3.forceManyBody().strength(0))
+  }
 
   function dragged(d) {
     d3.event.subject.fx = d3.event.x;
