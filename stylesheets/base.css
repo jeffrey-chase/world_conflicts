@@ -9,9 +9,12 @@ h2 {
 
 svg {
   border: 2px solid white;
+  cursor: grab;
   margin: 0 auto;
   width: 90%;
 }
+
+svg:active {cursor: grabbing}
 
 text {
   fill: white;

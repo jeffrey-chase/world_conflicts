@@ -65,9 +65,9 @@ let graph = function (data) {
 
 
   svg_conflict.call(
-  d3.zoom().on('zoom', () => {
+    d3.zoom().on('zoom', () => {
       svg_conflict.selectAll('g.links, g.nodes').attr('transform', d3.event.transform);
-  }))
+    }))
 
 
   let links = svg_conflict.append('g')
@@ -94,10 +94,14 @@ let graph = function (data) {
     .selectAll("g.nodes")
     .data(countries)
     .enter().append("g")
-    .attr('fill', 'white');
+    .attr('fill', 'white')
+    .style('cursor', 'pointer');
 
+
+  const startRadius = 0.5;
+  const endRadius = 6;
   let circles = nodes.append('circle')
-    .attr('r', 0.5)
+    .attr('r', startRadius)
     .attr('fill', 'white')
     .attr('stroke', '#80808A')
     .call(d3.drag()
@@ -106,6 +110,19 @@ let graph = function (data) {
       .on("end", dragended)
     )
 
+  circles.on('mouseover', () => {
+    svg_conflict.selectAll('line').style('opacity', 0.5);
+    svg_conflict.selectAll('circle').style('opacity', 0.8);
+    
+    d3.select(d3.event.target).attr('r', endRadius*1.5).style('opacity', 1);
+  });
+
+  circles.on('mouseout', (e) => {
+    svg_conflict.selectAll('*').style('opacity', 1);
+    d3.select(d3.event.target).attr('r', endRadius).attr('opacity', 1);
+  });
+
+  
   circles.transition()
     .attr('fill', '#333344')
     .attr('r', 6)
