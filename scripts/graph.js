@@ -11,11 +11,10 @@
   let simulation = d3.forceSimulation().alpha(1)
     .force('link', d3.forceLink().id((d) => {
       return d.id;
-    }))
+    }).distance(100))
     .force('charge', d3.forceManyBody().strength(-30))
-    .force('center', d3.forceCenter(width / 2, height / 2))
-    .linkDistance(50);
-
+    .force('center', d3.forceCenter(width / 2, height / 2));
+  
 //  let labSimulation = d3.forceSimulation().alpha(0.5)
 //    .force('link', d3.forceLink().id((d) => {
 //      return d.id;
