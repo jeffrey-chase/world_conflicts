@@ -1,10 +1,17 @@
 body {
   background: black;
-  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  color: #D8DBE2;
+  font-family: 'Raleway', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 }
 
-h2 {
-  color: #dd8833;
+h1 {
+  font-size: 2em;
+}
+
+h1, h2 {
+  color: #76C3CF;
+  font-family: 'Abril Fatface','Georgia', 'Times', serif;
+  letter-spacing: 0.05em;
 }
 
 svg {
