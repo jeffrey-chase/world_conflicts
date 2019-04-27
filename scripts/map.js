@@ -31,8 +31,8 @@
 			var projection = d3
 				.geoMercator()
 				.center([0,10])
-				.scale([w/(2*Math.PI)])
-				.translate([w/2,h/2])
+				.scale([w/(4)])
+//				.translate([h/2,w/2])
 			;	
 
 			var path = d3
@@ -49,9 +49,13 @@
 
 				countriesGroup.attr(
 					"transform","translate(" + [t.x, t.y] + ")scale(" + t.k + ")"
-				);
+				)
+              countries.attr('stroke-width', strokeWidth/t.k );
+              ;
 			}
 
+            let strokeWidth = 0.4;
+          
 			var zoom = d3
 				.zoom()
 				.on("zoom", zoomed)
@@ -94,6 +98,7 @@
    					return "country" + d.properties.iso_a3;
    				})
    				.attr('stroke', 'white')
+                .attr('stroke-width', 0.2)
    				.attr("class", "country");
 
     		svg.call(zoom);

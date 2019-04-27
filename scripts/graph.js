@@ -1,16 +1,5 @@
 (function () {
 
-
-
-
-
-  //  let labSimulation = d3.forceSimulation().alpha(0.5)
-  //    .force('link', d3.forceLink().id((d) => {
-  //      return d.id;
-  //    }))
-  //    .force('charge', d3.forceManyBody().strength(-15))
-  //    .force('center', d3.forceCenter(width / 2, height / 2))
-
   let graph = function (data, parent, converter) {
 
     const width = 900;
@@ -99,8 +88,6 @@
       .enter().append("g")
       .attr('fill', 'white')
       .style('cursor', 'pointer');
-
-
 
     let circles = nodes.append('circle')
       .attr('r', startRadius)
