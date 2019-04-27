@@ -1,63 +1,80 @@
 (function(){
-	width = 900;
-	height = 500;
+	var w = 600;
+	var h = 500;
 
 	var minZoom;
 	var maxZoom;
 
-	var projection = d3
-		.geoEquirectangular()
-		.center([0,15])
-		.scale([w/(2*Math.PI)])
-		.translate([w/2,h/2])
-	;
+    /*$(window).resize(function() 
+    {
+    	svg
+    		.attr("width", $("#map-holder").width())
+    		.attr("height", $("#map-holder").height())
+        ;
 
-	var path = d3
-		.geoPath()
-		.projection(projection)
-	;
+        initiateZoom();
+    });*/
 
-	function zoomed()
-	{
-		t = d3
-			.event
-			.transform
-		;
 
-		countriesGroup.attr(
-			"transform","translate(" + [t.x, t.y] + ")scale(" + t.k + ")"
-		);
-	}
+	d3.json(
+		"https://raw.githubusercontent.com/jeffrey-chase/world_conflicts/master/data/custom.geo.json").then(
 
-	var zoom = d3
-		.zoom()
-		.on("zoom", zoomed)
-	;
+		function(json){
 
-	function getTextBox(selection)
-	{
-		selection.each(fucntion(d)
-		{
-			d.bbox = this.getBBox();
-		});
-	}
+			var svg = d3
+				.select("#conflict-map")
+				.append("svg")
+				.attr("width", w)
+				.attr("height", h)
+			;
 
-	var svg = d3
-		.select("#conflict-map")
-		.append("svg")
-		.attr("width", $("#conflict-map").width())
-		.attr("height", $("#conflict-map").height())
-		.call(zoom)
-	;
+			var projection = d3
+				.geoMercator()
+				.center([0,10])
+				.scale([w/(2*Math.PI)])
+				.translate([w/2,h/2])
+			;	
 
-	d3.geojson(
-		"https://raw.githubusercontent.com/jeffrey-chase/world_conflicts/master/data/custom.geo.json",
-		function(geojson){
+			var path = d3
+				.geoPath()
+				.projection(projection)
+			;
 
-			countriesGroup = svg
+			function zoomed()
+			{
+				t = d3
+					.event
+					.transform
+				;
+
+				countriesGroup.attr(
+					"transform","translate(" + [t.x, t.y] + ")scale(" + t.k + ")"
+				);
+			}
+
+			var zoom = d3
+				.zoom()
+				.on("zoom", zoomed)
+			;
+
+			function initiateZoom() 
+			{
+	        	minZoom = Math.max($("#conflict-map").width() / w, $("#conflict-map").height() / h);
+	        	maxZoom = 20 * minZoom;
+	        	zoom
+	        		.scaleExtent([minZoom, maxZoom])
+	          		.translateExtent([[0, 0], [w, h]])
+	        	;
+	        	midX = ($("#conflict-map").width() - minZoom * w) / 2;
+	        	midY = ($("#conflict-map").height() - minZoom * h) / 2;
+	        	svg.call(zoom.transform, d3.zoomIdentity.translate(midX, midY).scale(minZoom));
+	    	}
+
+			let countriesGroup = svg
    				.append("g")
    				.attr("id", "map")
 			;
+			console.log(json);
 
 			countriesGroup
    				.append("rect")
@@ -67,7 +84,7 @@
    				.attr("height", h)
 			;
 
-			countries = countriesGroup
+			let countries = countriesGroup
    				.selectAll("path")
    				.data(json.features)
   				.enter()
@@ -76,7 +93,10 @@
    				.attr("id", function(d, i) {
    					return "country" + d.properties.iso_a3;
    				})
-   				.attr("class", "country")
+   				.attr('stroke', 'white')
+   				.attr("class", "country");
+
+    		svg.call(zoom);
    
    				/*.on("mouseover", function(d, i) {
    					d3.select("#countryLabel" + d.properties.iso_a3).style("display", "block");
