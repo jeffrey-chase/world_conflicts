@@ -21,26 +21,31 @@
 
 		function(json){
 
-      for (var i = 0; i <= json.features; i++) 
+      for (var i = 0; i < json.features.length; i++) 
       {
         var polygon = json.features[i].geometry;
         if(polygon.type === "MultiPolygon"){
           var largestSize = 0;
           var largestPolygon;
-          for(var j = 0; j <= polygon.coordinates.length; j++) { // for every item in coodinates calc size 
-            var size = turf.area(polygon.coordinates[j]);
+          for(var j = 0; j < polygon.coordinates.length; j++) { // for every item in coodinates calc size 
+            
+              var size = turf.area(turf.polygon(polygon.coordinates[j]));
+
 
             if (size > largestSize) {
               largestSize = size;
               largestPolygon = polygon.coordinates[j];
             }
-          }
+              var center = turf.pointOnFeature(turf.polygon(largestPolygon));
+
           //calc size of largest polygon
-          var center = turf.pointOnFeature(largestPolygon);
+          } 
+            
 
         } 
         else { //polygon.type === "Polygon"
-          var center = turf.pointOnFeature(polygon.coordinates[i]);
+          var center = turf.pointOnFeature(turf.polygon(polygon.coordinates));
+
         }
         json.features[i].properties.center = center
         console.log(center);
@@ -157,8 +162,9 @@
    						return "countryLabel" + d.properties.iso_a3;
    					})
    					.attr("transform", function(d){
+              console.log(d.properties.center);
    						return (
-   							"translate(" + d.properties.center[0] + "," + d.properties.center[1] + ")"
+   							"translate(" + projection([d.properties.center.geometry.coordinates[0], d.properties.center.geometry.coordinates[1]])  + ")"
    							);
    					})
    					.on("mouseover", function(d,i){
