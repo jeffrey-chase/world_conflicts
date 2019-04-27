@@ -21,6 +21,32 @@
 
 		function(json){
 
+      for (var i = 0; i <= json.features; i++) 
+      {
+        var polygon = json.features[i].geometry;
+        if(polygon.type === "MultiPolygon"){
+          var largestSize = 0;
+          var largestPolygon;
+          for(var j = 0; j <= polygon.coordinates.length; j++) { // for every item in coodinates calc size 
+            var size = turf.area(polygon.coordinates[j]);
+
+            if (size > largestSize) {
+              largestSize = size;
+              largestPolygon = polygon.coordinates[j];
+            }
+          }
+          //calc size of largest polygon
+          var center = turf.pointOnFeature(largestPolygon);
+
+        } 
+        else { //polygon.type === "Polygon"
+          var center = turf.pointOnFeature(polygon.coordinates[i]);
+        }
+        json.features[i].properties.center = center
+        console.log(center);
+      } 
+
+
 			var svg = d3
 				.select("#conflict-map")
 				.append("svg")
@@ -132,7 +158,7 @@
    					})
    					.attr("transform", function(d){
    						return (
-   							"translate(" + path.centroid(d)[0] + "," + path.centroid(d)[1] + ")"
+   							"translate(" + d.properties.center[0] + "," + d.properties.center[1] + ")"
    							);
    					})
    					.on("mouseover", function(d,i){
@@ -145,7 +171,7 @@
    						d3.selectAll(".country").classed("country-on", false);
    						d3.select("#country" + d.properties.iso_a3).classed("country-on", true);
               			boxZoom(path.bounds(d), path.centroid(d), 20);
-            		});
+                  });
             	countryLabels
             		.append("text")
             		.attr("class", "countryName")
@@ -169,6 +195,7 @@
             		.attr("height", function(d){
             			return d.bbox.height;
             		});
+
 
    				
    				svg.call(zoom);
