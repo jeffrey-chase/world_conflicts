@@ -205,21 +205,23 @@
 
 
   Promise.all([
-  d3.json('../data/formatted_data/alliances.json'),
-  d3.json('../data/formatted_data/ccode_converter.json'),
-  d3.json('../data/formatted_data/conflicts.json'),
-  d3.json('../data/formatted_data/nodes.json'),
-  d3.json('../data/formatted_data/combined_links.json')
+  d3.json('../data/formatted_data/alliances_all.json'),  // 0
+  d3.json('../data/formatted_data/alliances_primary.json'),  // 1
+  d3.json('../data/formatted_data/ccode_converter.json'),  // 2
+  d3.json('../data/formatted_data/conflicts_all.json'),  // 3
+  d3.json('../data/formatted_data/conflicts_primary.json'),  // 4
+  d3.json('../data/formatted_data/nodes.json'),  // 5
 ]).then((d) => {
-    let alliances = d[0];
-    let codeConverter = d[1];
-    let conflicts = d[2];
-    let countries = d[3];
-    let allLinks = d[4]
+    let alliancesAll = d[0];
+    let alliancesPrimary = d[1];
+    let codeConverter = d[2];
+    let conflictsAll = d[3];
+    let conflictsPrimary = d[4];
+    let countries = d[5];
 
     graph({
       nodes: countries,
-      links: conflicts
+      links: conflictsPrimary
     }, d3.select('#conflict-graph'), codeConverter);
   });
 
