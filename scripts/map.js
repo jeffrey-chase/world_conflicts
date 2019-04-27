@@ -107,8 +107,7 @@
    				})
    				.attr('stroke', 'white')
                 .attr('stroke-width', 0.2)
-   				.attr("class", "country");
-
+   				.attr("class", "country")
    				.on("mouseover", function(d, i) {
    					d3.select("#countryLabel" + d.properties.iso_a3).style("display", "block");
    				})
