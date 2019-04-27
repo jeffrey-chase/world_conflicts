@@ -30,9 +30,9 @@
 
 			var projection = d3
 				.geoMercator()
-				.center([0,10])
+				.center([-40,40])
 				.scale([w/(2*Math.PI)])
-				.translate([w/2,h/2])
+				// .translate([w/2,h/2])
 			;	
 
 			var path = d3
