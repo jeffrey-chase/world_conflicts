@@ -38,3 +38,13 @@ div {
   margin: auto;
   width: 100%;
 }
+
+.countryLabel{
+  display: none;   
+}
+.countryName{
+  fill: #FFFFFF;   
+}
+.countryLabelBg{
+  fill: black;   
+}
