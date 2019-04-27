@@ -16,7 +16,7 @@
     const width = 900;
     const height = 500;
 
-    let simulation = d3.forceSimulation().alpha(1)
+    let simulation = d3.forceSimulation().alpha(0.5)
       .force('link', d3.forceLink().id((d) => {
         return d.id;
       }).distance(100))
@@ -32,7 +32,7 @@
     const startRadius = 0.5;
     const endRadius = 6;
 
-    const linkSize = d3.scaleLog()
+    const linkSize = d3.scaleLinear()
       .domain(d3.extent(data.links.map((d) => {
         return +d.value
       })))
@@ -75,9 +75,9 @@
 
     let links = svg_conflict.append('g')
       .attr('class', 'links')
-      .selectAll("line.conflict")
+      .selectAll("path.conflict")
       .data(data.links)
-      .enter().append('line')
+      .enter().append('path')
       .attr('class', 'conflict')
       .attr('fill', 'none')
       .attr('stroke-width', getLinkSize)
@@ -147,34 +147,34 @@
       .attr('y', 3);
 
     function ticked() {
-      //    links
-      //      .attr("d", function (d) {
-      //        let dx = d.target.x - d.source.x,
-      //          dy = d.target.y - d.source.y,
-      //          dr = Math.sqrt(dx * dx + dy * dy);
-      //        return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
-      //      });
-
-      links
-        .attr("x1", function (d) {
-          return d.source.x;
-        })
-        .attr("y1", function (d) {
-          return d.source.y;
-        })
-        .attr("x2", function (d) {
-          return d.target.x;
-        })
-        .attr("y2", function (d) {
-          return d.target.y;
-        });
+          links
+            .attr("d", function (d) {
+              let dx = d.target.x - d.source.x,
+                dy = d.target.y - d.source.y,
+                dr = Math.sqrt(dx * dx + dy * dy);
+              return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+            });
+//
+//      links
+//        .attr("x1", function (d) {
+//          return d.source.x;
+//        })
+//        .attr("y1", function (d) {
+//          return d.source.y;
+//        })
+//        .attr("x2", function (d) {
+//          return d.target.x;
+//        })
+//        .attr("y2", function (d) {
+//          return d.target.y;
+//        });
 
 
 
       nodes
         .attr("transform", function (d) {
-          //        d.x = Math.max(5, Math.min(width - 5, d.x));
-          //        d.y = Math.max(5, Math.min(height - 5, d.y))
+                  d.x = Math.max(5, Math.min(width - 5, d.x));
+                  d.y = Math.max(5, Math.min(height - 5, d.y))
           return "translate(" + d.x + "," + d.y + ")";
         })
     }
@@ -183,10 +183,10 @@
 
 
     function dragstarted() {
-      if (!d3.event.active) simulation.alphaTarget(1).restart();
+      if (!d3.event.active) simulation.alphaTarget(0.5).restart();
       d3.event.subject.fx = d3.event.subject.x;
       d3.event.subject.fy = d3.event.subject.y;
-      simulation.force('charge', d3.forceManyBody().strength(-20))
+      simulation.force('charge', d3.forceManyBody().strength(1))
     }
 
     function dragged(d) {
@@ -198,7 +198,7 @@
       if (!d3.event.active) simulation.alphaTarget(0);
       d3.event.subject.fx = null;
       d3.event.subject.fy = null;
-      simulation.force('charge', d3.forceManyBody().strength(-30))
+      simulation.force('charge', d3.forceManyBody().strength(-10))
     }
 
   };
@@ -210,17 +210,19 @@
   d3.json('../data/formatted_data/ccode_converter.json'),  // 2
   d3.json('../data/formatted_data/conflicts_all.json'),  // 3
   d3.json('../data/formatted_data/conflicts_primary.json'),  // 4
-  d3.json('../data/formatted_data/nodes.json'),  // 5
+  d3.json('../data/formatted_data/nodes_all.json'),  // 5
+  d3.json('../data/formatted_data/nodes_primary.json') // 6
 ]).then((d) => {
     let alliancesAll = d[0];
     let alliancesPrimary = d[1];
     let codeConverter = d[2];
     let conflictsAll = d[3];
     let conflictsPrimary = d[4];
-    let countries = d[5];
+    let countriesAll = d[5];
+    let countriesPrimary = d[6];
 
     graph({
-      nodes: countries,
+      nodes: countriesPrimary,
       links: conflictsPrimary
     }, d3.select('#conflict-graph'), codeConverter);
   });
