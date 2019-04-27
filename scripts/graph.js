@@ -1,43 +1,45 @@
 (function () {
-  width = 900;
-  height = 500;
-
-  let svg_conflict = d3.select('#conflict-graph')
-    .append('svg')
-    .attr('width', width)
-    .attr('height', height);
 
 
-  let simulation = d3.forceSimulation().alpha(1)
-    .force('link', d3.forceLink().id((d) => {
-      return d.id;
-    }).distance(100))
-    .force('charge', d3.forceManyBody().strength(-30))
-    .force('center', d3.forceCenter(width / 2, height / 2));
-  
-//  let labSimulation = d3.forceSimulation().alpha(0.5)
-//    .force('link', d3.forceLink().id((d) => {
-//      return d.id;
-//    }))
-//    .force('charge', d3.forceManyBody().strength(-15))
-//    .force('center', d3.forceCenter(width / 2, height / 2))
 
-  let graph = function (data) {
-    let alliances = data[0];
-    let codeConverter = data[1];
-    console.log(codeConverter);
-    let conflicts = data[2];
-    let countries = data[3];
-    let allLinks = data[4]
 
-    let linkSize = d3.scaleLog()
-      .domain(d3.extent(conflicts.map((d) => {
+
+  //  let labSimulation = d3.forceSimulation().alpha(0.5)
+  //    .force('link', d3.forceLink().id((d) => {
+  //      return d.id;
+  //    }))
+  //    .force('charge', d3.forceManyBody().strength(-15))
+  //    .force('center', d3.forceCenter(width / 2, height / 2))
+
+  let graph = function (data, parent, converter) {
+
+    const width = 900;
+    const height = 500;
+
+    let simulation = d3.forceSimulation().alpha(1)
+      .force('link', d3.forceLink().id((d) => {
+        return d.id;
+      }).distance(100))
+      .force('charge', d3.forceManyBody().strength(-30))
+      .force('center', d3.forceCenter(width / 2, height / 2));
+
+    let svg_conflict = parent
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height);
+
+
+    const startRadius = 0.5;
+    const endRadius = 6;
+
+    const linkSize = d3.scaleLog()
+      .domain(d3.extent(data.links.map((d) => {
         return +d.value
       })))
       .range([2, 7]);
 
-    let nodeColor = d3.scaleLog()
-      .domain(d3.extent(conflicts.map((d) => {
+    const nodeColor = d3.scaleLog()
+      .domain(d3.extent(data.links.map((d) => {
         return +d.value
       })))
       .range([0, 1]);
@@ -74,7 +76,7 @@
     let links = svg_conflict.append('g')
       .attr('class', 'links')
       .selectAll("line.conflict")
-      .data(conflicts)
+      .data(data.links)
       .enter().append('line')
       .attr('class', 'conflict')
       .attr('fill', 'none')
@@ -93,14 +95,13 @@
     let nodes = svg_conflict.append('g')
       .attr('class', 'nodes')
       .selectAll("g.nodes")
-      .data(countries)
+      .data(data.nodes)
       .enter().append("g")
       .attr('fill', 'white')
       .style('cursor', 'pointer');
 
 
-    const startRadius = 0.5;
-    const endRadius = 6;
+
     let circles = nodes.append('circle')
       .attr('r', startRadius)
       .attr('fill', 'white')
@@ -136,8 +137,8 @@
       .attr('class', 'graph-labels')
       .text(function (d) {
         try {
-          console.log(codeConverter[d.id]['name']);
-          return codeConverter[d.id]['name'];
+          console.log(converter[d.id]['name']);
+          return converter[d.id]['name'];
         } catch (err) {
           return '';
         };
@@ -177,8 +178,8 @@
           return "translate(" + d.x + "," + d.y + ")";
         })
     }
-    simulation.nodes(countries).on('tick', ticked);
-    simulation.force('link').links(conflicts);
+    simulation.nodes(data.nodes).on('tick', ticked);
+    simulation.force('link').links(data.links);
 
 
     function dragstarted() {
@@ -209,5 +210,17 @@
   d3.json('../data/formatted_data/conflicts.json'),
   d3.json('../data/formatted_data/nodes.json'),
   d3.json('../data/formatted_data/combined_links.json')
-]).then((d) => graph(d));
+]).then((d) => {
+    let alliances = d[0];
+    let codeConverter = d[1];
+    let conflicts = d[2];
+    let countries = d[3];
+    let allLinks = d[4]
+
+    graph({
+      nodes: countries,
+      links: conflicts
+    }, d3.select('#conflict-graph'), codeConverter);
+  });
+
 })();
