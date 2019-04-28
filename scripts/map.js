@@ -29,7 +29,7 @@
 			;
 
 			var projection = d3
-				.geoMercator()
+				.geoNaturalEarth1()
 				.center([0,10])
 				.scale([w/(4)])
 //				.translate([h/2,w/2])
