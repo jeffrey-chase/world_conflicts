@@ -21,6 +21,37 @@
 
 		function(json){
 
+      for (var i = 0; i < json.features.length; i++) 
+      {
+        var polygon = json.features[i].geometry;
+        if(polygon.type === "MultiPolygon"){
+          var largestSize = 0;
+          var largestPolygon;
+          for(var j = 0; j < polygon.coordinates.length; j++) { // for every item in coodinates calc size 
+            
+              var size = turf.area(turf.polygon(polygon.coordinates[j]));
+
+
+            if (size > largestSize) {
+              largestSize = size;
+              largestPolygon = polygon.coordinates[j];
+            }
+              var center = turf.pointOnFeature(turf.polygon(largestPolygon));
+
+          //calc size of largest polygon
+          } 
+            
+
+        } 
+        else { //polygon.type === "Polygon"
+          var center = turf.pointOnFeature(turf.polygon(polygon.coordinates));
+
+        }
+        json.features[i].properties.center = center
+        console.log(center);
+      } 
+
+
 			var svg = d3
 				.select("#conflict-map")
 				.append("svg")
@@ -131,8 +162,9 @@
    						return "countryLabel" + d.properties.iso_a3;
    					})
    					.attr("transform", function(d){
+              console.log(d.properties.center);
    						return (
-   							"translate(" + path.centroid(d)[0] + "," + path.centroid(d)[1] + ")"
+   							"translate(" + projection([d.properties.center.geometry.coordinates[0], d.properties.center.geometry.coordinates[1]])  + ")"
    							);
    					})
    					.on("mouseover", function(d,i){
@@ -145,7 +177,7 @@
    						d3.selectAll(".country").classed("country-on", false);
    						d3.select("#country" + d.properties.iso_a3).classed("country-on", true);
               			boxZoom(path.bounds(d), path.centroid(d), 20);
-            		});
+                  });
             	countryLabels
             		.append("text")
             		.attr("class", "countryName")
@@ -169,6 +201,7 @@
             		.attr("height", function(d){
             			return d.bbox.height;
             		});
+
 
    				
    				svg.call(zoom);
