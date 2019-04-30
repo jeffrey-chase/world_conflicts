@@ -7,24 +7,30 @@ body {
 
 
 header {
+  overflow: hidden;
   width: 90%;
-  margin: 0 5%;
+  margin: 0 5% 500px 5%;
 }
 
 h1 {
   font-size: 11.089em;
-  font-stretch: semi-expanded;
-  margin-top: 0;
-/*  font-style: italic;*/
+  margin: 0 0 200px 0;
+  font-weight: bold;
 }
 
 h1::first-letter {
   font-size: 2em;
+/*  font-style: normal;*/
+}
+
+h1 i {
+  font-size: 0.5em;
 }
 
 
 h1,
-h2 {
+h2, 
+h3 {
   /*  color: #ff0000;*/
   font-family: 'Playfair Display', 'Georgia', 'Times New Roman', 'Times', serif;
   font-weight: normal;
@@ -33,6 +39,10 @@ h2 {
 
 h2 {
   font-size: 6.854em;
+}
+
+h3 {
+  font-size: 4.236em;
 }
 
 a {
@@ -47,15 +57,16 @@ a:hover {
 }
 
 #intro {
-  text-align: justify;
-  float: right;
-  width: 40%;
+  position: relative;
 }
 
 #intro p {
-  clear: both;
-  width: 100%;
+  text-align: justify;
+  width: 40%;
+  position: relative;
+  left: 60%;
 }
+
 
 
 svg {
@@ -64,6 +75,15 @@ svg {
   margin: 0 auto;
   shape-rendering: geometricPrecision;
   width: 90%;
+}
+
+svg.background {
+  border: none;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  z-index:  -1;
+  
 }
 
 svg:active {
