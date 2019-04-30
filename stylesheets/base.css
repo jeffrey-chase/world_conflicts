@@ -2,17 +2,61 @@ body {
   background: black;
   color: #D8DBE2;
   font-family: 'Raleway', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  line-height: 1.45;
+}
+
+
+header {
+  width: 90%;
+  margin: 0 5%;
 }
 
 h1 {
+  font-size: 11.089em;
+  font-stretch: semi-expanded;
+  margin-top: 0;
+/*  font-style: italic;*/
+}
+
+h1::first-letter {
   font-size: 2em;
 }
 
-h1, h2 {
-  color: #ff0000;
-  font-family: 'Abril Fatface', 'Georgia', 'Times New Roman', 'Times', serif;
-  letter-spacing: 0.05em;
+
+h1,
+h2 {
+  /*  color: #ff0000;*/
+  font-family: 'Playfair Display', 'Georgia', 'Times New Roman', 'Times', serif;
+  font-weight: normal;
+
 }
+
+h2 {
+  font-size: 6.854em;
+}
+
+a {
+  border-bottom: 2px solid red;
+  color: red;
+  padding-bottom: 0.025em;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #ff7777;
+}
+
+#intro {
+  text-align: justify;
+  float: right;
+  width: 40%;
+}
+
+#intro p {
+  clear: both;
+  width: 100%;
+}
+
 
 svg {
   border: 2px solid white;
@@ -22,7 +66,9 @@ svg {
   width: 90%;
 }
 
-svg:active {cursor: grabbing}
+svg:active {
+  cursor: grabbing
+}
 
 text {
   fill: white;
@@ -34,17 +80,18 @@ text {
 }
 
 div {
-  display: flex;
   margin: auto;
   width: 100%;
 }
 
-.countryLabel{
-  display: none;   
+.countryLabel {
+  display: none;
 }
-.countryName{
-  fill: #FFFFFF;   
+
+.countryName {
+  fill: #FFFFFF;
 }
-.countryLabelBg{
-  fill: black;   
+
+.countryLabelBg {
+  fill: black;
 }

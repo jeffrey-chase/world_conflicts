@@ -7,7 +7,8 @@
   <title>World in Conflict | An Interactive Visualization </title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/5.1.5/turf.min.js"></script>
   <link rel="stylesheet" href="stylesheets/base.css">
-  <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Raleway" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display+SC|Playfair+Display:400,900|Raleway" rel="stylesheet">
+
 
   <script src="scripts/lib/d3.min.js"></script>
 
@@ -18,10 +19,21 @@
   <header>
     <h1> A World in Conflict </h1>
 
+    <div id='intro'>
+      <p>
+        Some of the most tragic events in human history have taken place in the context of great conflicts. The human tendency to settle disputes with violence is not a new one, but as technology has developed and historic tensions have festered, this predilection for violence permeates our times with vigor and has made a palpable fear descend on our world and its people.
+      </p>
 
+      <p>
+        This series of visualizations seeks to make apparent the prevalence of war in international affairs. With data from the <a href='https://ucdp.uu.se/'>Uppsala Conflict Data Program</a>, we show patterns of conflict from 1946 &mdash; 2017. Explore these visualizations to see how war has shaped our world and understand the scale of its impact in the modern era.
+      </p>
+    </div>
   </header>
   <article>
     <section>
+      <section id='timeline'>
+
+      </section>
       <div id="conflict-map">
 
       </div>
@@ -42,9 +54,7 @@
 
     </section>
 
-    <section id='timeline'>
 
-    </section>
   </article>
 </body>
 <script src="scripts/graph.js"></script>
