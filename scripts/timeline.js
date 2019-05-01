@@ -9,21 +9,17 @@
     });
 
     d = d.sort((d1, d2) => d1.startDate > d2.startDate);
-    console.log(d);
 
     let nested = d3.nest()
       .key((d) => +d.year)
       .sortKeys(d3.ascending)
       .rollup((d) => {
-        console.log(d);
         return {
           major: d.filter((e) => e.intensity_level === "2"),
           minor: d.filter((e) => e.intensity_level === "1")
         };
       })
       .entries(d);
-
-    console.log(nested);
 
     let width = 1000;
     let height = 600;
@@ -44,11 +40,9 @@
       .attr('width', width)
       .attr('height', height);
 
-
     let points = svg.selectAll('circle.conflicts');
 
     nested.forEach((el) => {
-      console.log(el);
       let year = +el.key;
       let conflicts = el.values;
 

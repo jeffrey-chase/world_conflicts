@@ -48,7 +48,6 @@
 
         }
         json.features[i].properties.center = center
-        console.log(center);
       } 
 
 
@@ -117,7 +116,6 @@
    				.append("g")
    				.attr("id", "map")
 			;
-			console.log(json);
 
 			countriesGroup
    				.append("rect")
@@ -162,7 +160,6 @@
    						return "countryLabel" + d.properties.iso_a3;
    					})
    					.attr("transform", function(d){
-              console.log(d.properties.center);
    						return (
    							"translate(" + projection([d.properties.center.geometry.coordinates[0], d.properties.center.geometry.coordinates[1]])  + ")"
    							);

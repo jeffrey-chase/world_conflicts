@@ -20,11 +20,6 @@ h1 {
 
 h1::first-letter {
   font-size: 2em;
-/*  font-style: normal;*/
-}
-
-h1 i {
-  font-size: 0.5em;
 }
 
 
