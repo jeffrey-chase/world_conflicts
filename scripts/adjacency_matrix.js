@@ -46,7 +46,6 @@
 
     let cellSize = 1000 / nodes.length;
 
-
     svg.append('g').selectAll('rect.grid')
       .data(nodes).enter()
       .append('rect')
