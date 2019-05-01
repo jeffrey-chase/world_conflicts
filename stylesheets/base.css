@@ -16,11 +16,13 @@ h1 {
   font-size: 11.089em;
   margin: 0 0 200px 0;
   font-weight: bold;
+/*  text-shadow: 3px 3px 5px #f9f9f9;*/
 }
 
 h1::first-letter {
-  font-size: 2em;
+  font-size: 1.25em;
 }
+
 
 
 h1,
@@ -84,7 +86,7 @@ input:focus {
 }
 
 #country-search {
-  float: right;
+  font-size: 1.25em;
 }
 
 #search-matches ul {
@@ -94,11 +96,6 @@ input:focus {
   padding-left: 15px;
   margin-top: 0;
   width: 100%;
-}
-
-#search-matches .highlight {
-  font-weight: bold;
-  color: #cc6666;
 }
 
 circle.highlight {

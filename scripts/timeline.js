@@ -150,13 +150,25 @@
         let listContainer = d3.select('#search-matches').select('ul')
 
         listContainer.selectAll('li').remove();
+      
+      svg.selectAll('circle')
+        .classed('highlight', function(d){
+        for (let i in list){
+          for (let j in d.actors){
+            if(list[i]['code'] == d.actors[j]){
+              return true;
+            }
+          }
+        }
+        return false;
+      })
 
         listContainer.selectAll('li').data(list).enter().append('li')
           .text((d) => d.name)
           .on('click', function (d) {
             let selected = d.code;
-            d3.select(this).classed('highlight', true);
-
+            document.getElementById('country-search').value = this.textContent;
+            
             svg.selectAll('circle')
               .classed('highlight', function (d) {
                 let codes = d.actors;
@@ -167,6 +179,8 @@
                 }
               return false;
               });
+          
+            listContainer.selectAll('*').remove();
           });
       })
 
