@@ -28,7 +28,7 @@
       svg.selectAll('circle').data(data).enter().append('circle')
         .attr('cx', (d) => d.x)
         .attr('cy', (d) => d.y)
-        .style('fill', '#ff3300')
+        .style('fill', '#cc6633')
         .style('opacity', '1')
         .attr('r', 1)
         .transition()

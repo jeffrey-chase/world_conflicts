@@ -7,7 +7,7 @@
   <title>World in Conflict | An Interactive Visualization </title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/5.1.5/turf.min.js"></script>
   <link rel="stylesheet" href="stylesheets/base.css">
-<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,900,900i|Raleway" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,900,900i|Raleway" rel="stylesheet">
 
 
   <script src="scripts/lib/d3.min.js"></script>
@@ -34,6 +34,14 @@
     <section>
       <section id='timeline-section'>
         <h3>Conflict over Time</h3>
+        <div id='search-container'>
+          <label for='country-search'>Country Search: </label>
+          <input type="text" id='country-search'>
+          <div id='search-matches'>
+            <ul>
+            </ul>
+          </div>
+        </div>
         <div id='timeline'>
         </div>
 
@@ -65,4 +73,5 @@
 <script src="scripts/map.js"></script>
 <script src="scripts/timeline.js"></script>
 <script src="scripts/adjacency_matrix.js"></script>
+
 </html>

@@ -1,14 +1,25 @@
 (function () {
   let parent = d3.select('#timeline');
 
-  d3.csv('data/raw_data/ucdp-prio-acd-181.csv').then(function (d) {
-    d.forEach((d) => {
+  Promise.all([
+    d3.csv('data/raw_data/ucdp-prio-acd-181.csv'),
+    d3.json('data/formatted_data/ccode_converter.json')
+  ]).then(function (d) {
+    let conflicts = d[0];
+    let converter = d[1];
+
+    conflicts.forEach((d) => {
       d.startDate = new Date(d.start_date) || new Date(d.year);
       d.endDate = new Date(d.end_date) || new Date(d.year);
       d.year = +d.year;
+      d.actors = [];
+      d.gwno_a.split(',').forEach((e) => d.actors.push(e));
+      d.gwno_a_2nd.split(',').forEach((e) => d.actors.push(e));
+      d.gwno_b.split(',').forEach((e) => d.actors.push(e));
+      d.gwno_b_2nd.split(',').forEach((e) => d.actors.push(e));
     });
 
-    d = d.sort((d1, d2) => d1.startDate > d2.startDate);
+    conflicts = conflicts.sort((d1, d2) => d1.startDate > d2.startDate);
 
     let nested = d3.nest()
       .key((d) => +d.year)
@@ -19,7 +30,7 @@
           minor: d.filter((e) => e.intensity_level === "1")
         };
       })
-      .entries(d);
+      .entries(conflicts);
 
     let width = 1000;
     let height = 600;
@@ -49,16 +60,15 @@
       points.data(el.value.minor).enter().append('circle')
         .attr('class', 'conflicts')
         .attr('r', 0.1)
-        .attr('fill', 'white')
+        .style('fill', (d) => d.intensity_level === '2' ? '#ff0000' : '#660000')
         .style('opacity', (d) => d.intensity_level === '2' ? 1.0 : 0.7)
         .attr('cx', xScale(year))
-        .attr('cy', height+20)
+        .attr('cy', height + 20)
         .transition()
         .delay((d, i) => {
           return (year - 1946) * 90 + i * 2;
         })
         .duration(2000)
-        .style('fill', (d) => d.intensity_level === '2' ? '#ff0000' : '#660000')
         .style('stroke', (d) => d.intensity_level === '2' ? '' : '#ff0000')
         .attr('r', (d) => d.intensity_level === '2' ? 5 : 3)
         .attr('cy', (d, i) => {
@@ -69,7 +79,7 @@
       points.data(el.value.major).enter().append('circle')
         .attr('class', 'conflicts')
         .attr('r', 0.1)
-        .attr('fill', 'white')
+        .style('fill', (d) => d.intensity_level === '2' ? '#ff0000' : '#660000')
         .attr('cx', xScale(year))
         .attr('cy', -10)
         .transition()
@@ -77,8 +87,6 @@
           return (year - 1946) * 90 + i * 2;
         })
         .duration(2000)
-        .style('fill', (d) => d.intensity_level === '2' ? '#ff0000' : '#660000')
-        .style('stroke', (d) => d.intensity_level === '2' ? '' : '#ff0000')
         .style('opacity', (d) => d.intensity_level === '2' ? 1.0 : 0.7)
         .attr('r', (d) => d.intensity_level === '2' ? 5 : 3)
         .attr('cy', (d, i) => {
@@ -123,5 +131,54 @@
       .style('text-anchor', 'end');
 
 
+    let countries = [];
+
+    for (let i in converter) {
+      countries.push({
+        name: converter[i]['name'],
+        code: i
+      });
+    }
+
+    console.log(countries);
+
+    d3.select('#country-search')
+      .on('input', function (e) {
+        let input = this.value;
+        let list = input === '' ? [] : regexListMatch(input, countries, 'name').slice(0, 20);
+
+        let listContainer = d3.select('#search-matches').select('ul')
+
+        listContainer.selectAll('li').remove();
+
+        listContainer.selectAll('li').data(list).enter().append('li')
+          .text((d) => d.name)
+          .on('click', function (d) {
+            let selected = d.code;
+            d3.select(this).classed('highlight', true);
+
+            svg.selectAll('circle')
+              .classed('highlight', function (d) {
+                let codes = d.actors;
+                for(let i in codes){
+                  if(codes[i] == selected){
+                    return true;
+                  }
+                }
+              return false;
+              });
+          });
+      })
+
   });
+
+
+  function regexListMatch(search, list, column) {
+    let re = new RegExp('' + search + '', 'gi');
+    console.log(re);
+
+    let matches = list.filter((e) => re.test(e[column]));
+    console.log(matches);
+    return matches;
+  }
 })();

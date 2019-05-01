@@ -24,7 +24,7 @@ h1::first-letter {
 
 
 h1,
-h2, 
+h2,
 h3 {
   /*  color: #ff0000;*/
   font-family: 'Playfair Display', 'Georgia', 'Times New Roman', 'Times', serif;
@@ -62,7 +62,48 @@ a:hover {
   left: 60%;
 }
 
+input {
+  background: black;
+  border: 2px solid white;
+  color: white;
+  font-family: 'Raleway', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  padding: 10px;
+  margin: 10px;
+}
 
+input:focus {
+  outline: 2px solid #ff2222;
+}
+
+#search-container {
+  display: flex;
+  flex-flow: column nowrap;
+  position: relative;
+  float: left;
+  width: 50%;
+}
+
+#country-search {
+  float: right;
+}
+
+#search-matches ul {
+  background: rgba(10, 10, 10, 0.8);
+  position: absolute;
+  list-style: none;
+  padding-left: 15px;
+  margin-top: 0;
+  width: 100%;
+}
+
+#search-matches .highlight {
+  font-weight: bold;
+  color: #cc6666;
+}
+
+circle.highlight {
+  stroke: white !important;
+}
 
 svg {
   border: 2px solid white;
@@ -75,10 +116,11 @@ svg {
 svg.background {
   border: none;
   position: absolute;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100%;
-  z-index:  -1;
-  
+  z-index: -1;
+
 }
 
 svg:active {

@@ -100,8 +100,8 @@
       )
 
     circles.on('mouseover', () => {
-      svg_conflict.selectAll('line').style('opacity', 0.5);
-      svg_conflict.selectAll('circle').style('opacity', 0.8);
+      svg_conflict.selectAll('path').style('opacity', 0.3);
+      svg_conflict.selectAll('circle').style('opacity', 1);
 
       d3.select(d3.event.target).attr('r', endRadius * 1.5).style('opacity', 1);
     });
@@ -165,8 +165,8 @@
 
       nodes
         .attr("transform", function (d) {
-                  d.x = Math.max(5, Math.min(width - 5, d.x));
-                  d.y = Math.max(5, Math.min(height - 5, d.y))
+//                  d.x = Math.max(5, Math.min(width - 5, d.x));
+//                  d.y = Math.max(5, Math.min(height - 5, d.y))
           return "translate(" + d.x + "," + d.y + ")";
         })
     }
