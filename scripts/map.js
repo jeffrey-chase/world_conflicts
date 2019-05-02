@@ -16,11 +16,10 @@
     });*/
 
   Promise.all([d3.json("https://raw.githubusercontent.com/jeffrey-chase/world_conflicts/master/data/custom.geo.json"),
-                d3.json("/data/formatted_data/conflict_adjacency_matrix.json")]).then(
+                d3.json("/data/formatted_data/cname_convert.json"),
+                d3.json("/data/formatted_data/country_all_sums.json")]).then(
 
-		//json.foreach(d.num = );
-
-
+    json.foreach(d.properties.num = country_all_sums[cname_convert[d.properties.iso_a3]])
 
     function(d){
 
@@ -75,10 +74,18 @@
         .domain(d3.extent(conflicts, (d) => d.weight))
         .range([0,1])
       ;
-
+      //fill attribute to the countries in the d3 append part
       function getColor(d) 
       {
-        d3.interpolateYlOrRd(colorScale(color));
+        //d3.interpolateYlOrRd(colorScale(color));
+        let colors = svg
+          .append("c")
+          .attr("id", "map")
+          .style("fill", function(d){
+            return d3.interpolateYlOrRd(colorScale(d))
+          })
+        ;
+
       }
 
 			var path = d3
