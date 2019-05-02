@@ -15,11 +15,17 @@
         initiateZoom();
     });*/
 
+  Promise.all([d3.json("https://raw.githubusercontent.com/jeffrey-chase/world_conflicts/master/data/custom.geo.json"),
+                d3.json("/data/formatted_data/conflict_adjacency_matrix.json")]).then(
 
-	d3.json(
-		"https://raw.githubusercontent.com/jeffrey-chase/world_conflicts/master/data/custom.geo.json").then(
+		//json.foreach(d.num = );
 
-		function(json){
+
+
+    function(d){
+
+      let json = d[0];
+      let conflicts = d[1];
 
       for (var i = 0; i < json.features.length; i++) 
       {
@@ -64,6 +70,16 @@
 				.scale([w/(4)])
 //				.translate([h/2,w/2])
 			;	
+
+      var color = d3.scaleLinear()
+        .domain(d3.extent(conflicts, (d) => d.weight))
+        .range([0,1])
+      ;
+
+      function getColor(d) 
+      {
+        d3.interpolateYlOrRd(colorScale(color));
+      }
 
 			var path = d3
 				.geoPath()
