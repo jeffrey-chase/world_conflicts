@@ -17,15 +17,25 @@
 
   Promise.all([d3.json("https://raw.githubusercontent.com/jeffrey-chase/world_conflicts/master/data/custom.geo.json"),
                 d3.json("/data/formatted_data/cname_convert.json"),
-                d3.json("/data/formatted_data/country_all_sums.json")]).then(
-
-    json.foreach(d.properties.num = country_all_sums[cname_convert[d.properties.iso_a3]])
+                d3.json("/data/formatted_data/country_conflict_sums.json")]).then(
 
     function(d){
 
       let json = d[0];
-      let conflicts = d[1];
+      let cname_convert = d[1];
       let sums = d[2];
+
+      json.features.forEach((d)=>{
+        var sum;
+        try{
+          sum = sums[cname_convert[d.properties.iso_a3].code];
+        }
+        catch(e){
+          console.log(e);
+          sum = 0;
+        }
+        d.properties.num = sum;
+      })
 
       for (var i = 0; i < json.features.length; i++) 
       {
@@ -72,21 +82,14 @@
 			;	
 
       var color = d3.scaleLinear()
-        .domain(d3.extent(conflicts, (d) => d.weight))
+        .domain(d3.extent(json.features, (d) => d.properties.num))
         .range([0,1])
       ;
       //fill attribute to the countries in the d3 append part
       function getColor(d) 
       {
-        //d3.interpolateYlOrRd(colorScale(color));
-        let colors = svg
-          .append("c")
-          .attr("id", "map")
-          .style("fill", function(d){
-            return d3.interpolateYlOrRd(colorScale(d))
-          })
-        ;
-
+        console.log(d.properties.num);
+        return d3.interpolateYlOrRd(color(d.properties.num));
       }
 
 			var path = d3
@@ -154,6 +157,7 @@
    				.data(json.features)
   				.enter()
    				.append("path")
+          .style("fill", getColor)
    				.attr("d", path)
    				.attr("id", function(d, i) {
    					return "country" + d.properties.iso_a3;
