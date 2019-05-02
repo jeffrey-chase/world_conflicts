@@ -25,6 +25,7 @@
 
       let json = d[0];
       let conflicts = d[1];
+      let sums = d[2];
 
       for (var i = 0; i < json.features.length; i++) 
       {
