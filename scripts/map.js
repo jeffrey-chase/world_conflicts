@@ -83,7 +83,7 @@
 
       var color = d3.scaleLinear()
         .domain(d3.extent(json.features, (d) => d.properties.num))
-        .range([0,1])
+        .range([0.3,1])
       ;
       //fill attribute to the countries in the d3 append part
       function getColor(d) 
@@ -162,8 +162,8 @@
    				.attr("id", function(d, i) {
    					return "country" + d.properties.iso_a3;
    				})
-   				.attr('stroke', 'white')
-                .attr('stroke-width', 0.2)
+   				.attr('stroke', '#999')
+                .attr('stroke-width', 0.4)
    				.attr("class", "country")
    				.on("mouseover", function(d, i) {
    					d3.select("#countryLabel" + d.properties.iso_a3).style("display", "block");
