@@ -1,21 +1,29 @@
 (function () {
 
   window.addEventListener('load', () => {
-    window.scroll(0,0);
+    window.scroll(0, 0);
     randomExplosions(d3.select('header'));
-    var p = document.getElementById("intro");
+    let p = document.getElementById("intro");
     p.style.opacity = 0;
-    var scale = d3.scaleLinear()
-      .domain([0, parseFloat(p.getBoundingClientRect().top)])
-      .range([1,0]);
-    window.onscroll = function() {
-      console.log(scale(parseFloat(p.getBoundingClientRect().top)))
-      p.style.opacity = scale(parseFloat(p.getBoundingClientRect().top));
+    
+    let opacityScale = d3.scaleLinear()
+      .domain([0, parseFloat(p.getBoundingClientRect().top)/2])
+      .range([1, 0]);
+
+    window.onscroll = function () {
+      let top = parseFloat(p.getBoundingClientRect().top);
+      if (top > 0) {
+        p.style.opacity = opacityScale(top);
+      } else {
+        p.style.opacity = null;
+        window.onscroll = null;
+      }
+
     };
   });
 
 
-  
+
 
   function randomExplosions(parent) {
     let width = parseFloat(window.getComputedStyle(parent.node()).width);
@@ -49,7 +57,7 @@
         .duration(3000)
         .style('fill', 'red')
         .style('opacity', 0)
-        .attr('r', (d)=> d.r)
+        .attr('r', (d) => d.r)
         .ease(d3.easeLinear)
         .on('end', function (e) {
           d3.select(this).remove()

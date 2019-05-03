@@ -22,9 +22,14 @@
 
     <div id='intro'>
       <p>
-        Some of the most tragic events in human history have taken place in the context of great conflicts. The human tendency to settle disputes with violence is not a new one, but as technology has developed and historic tensions have festered, this predilection for violence permeates our times with vigor and has made a palpable fear descend on our world and its people.
+        Some of the most tragic events in human history have taken place in the context of great conflicts. The human tendency to settle disputes with violence is not a new one, but as technology develops and historic tensions have fester, this predilection for violence permeates our times with a renewed vigor.
       </p>
 
+      <blockquote cite="https://www.brainyquote.com/quotes/george_santayana_133920">
+        Only the dead have seen the end of war
+      </blockquote>
+      <cite>George Santayana</cite>
+      
       <p>
         This series of visualizations seeks to make apparent the prevalence of war in international affairs. With data from the <a href='https://ucdp.uu.se/' target="blank">Uppsala Conflict Data Program</a>, we show patterns of conflict from 1946 &mdash; 2017. Explore these visualizations to see how war has shaped our world and understand the scale of its impact in the modern era.
       </p>
@@ -33,6 +38,17 @@
   <article>
     <section id='timeline-section'>
       <h3>Conflict over Time</h3>
+      <div class='description'>
+        <p>
+          This timeline shows the trends of conflicts over time both interstate (between countries) and intrastate (between multiple actors within one country). The timeline is divided between major conflicts (those with &gt; 1000 casualties) and minor conflicts (those with &lt; 1000 and &gt; 25 casualties).
+        </p>
+        <p>
+          The timeline has all of the conflicts in the dataset in order. Each stack represents the set of conflicts in that year. Some of these conflicts may be over incompatibilities that date back to earlier conflicts. Because of this, the start date listed may be before the year the data point is in.
+        </p>
+        <p>
+          Explore the data by using the search toolbar to find a specific country in the list (note that countries in the list may not appear in the chart, if they did not have any conflicts). Click a country in the dropdown menu as you type to select it. Hover over a conflict to show more specific information about it including what type of conflict it was and the specific actors involved.
+        </p>
+      </div>
       <div id='search-container'>
         <label for='country-search'>Country Search: </label>
         <input type="text" id='country-search'>
@@ -43,31 +59,59 @@
       </div>
       <div id='timeline'>
       </div>
-
     </section>
-    <section>
+
+    <section id='map-section'>
+      <h3>Mapping World Conflict</h3>
+      <div class="description">
+
+        <p>
+          This map shows the countries in the dataset that have fought in a conflict with another country since 1946. Countries colored darker red are those which have fought in more conflicts. The country with the most conflicts was india with 25 total.
+        </p>
+
+      </div>
       <div id="conflict-map">
 
       </div>
     </section>
 
 
-    <section>
-      <h3>World Conflicts</h3>
+    <section id='graph-section'>
+      <h3>The War Network</h3>
 
-      <div id='conflict-graph'>
+      <div class="description">
+        <p>
+          This edge-link diagram shows the warful connections between the countries in the dataset. Links represent conflicts between those two countries with thicker links representing more common conflict pairs. This graph focuses on the primary actors in the conflicts to show clusters of enemies and visualize the tangled network of international conflict among countries.
+        </p>
+
+        <p>
+          Pull the nodes to separate clusters from one another and explore the connections between countries and the shape and connectivity of the various clusters and their members.
+        </p>
 
       </div>
-      <div id='ally-graph'>
+      <div id='conflict-graph'>
 
       </div>
     </section>
     <section>
-      <h2> Connections </h2>
+      <h3> Connections in Conflict </h3>
+      <div class="description">
+        <p>
+          This adjacency matrix visualizes how various countries have been connected across conflicts. The rows and columns are duplicated, with a colored cell at the intersection between them indicating a connection. The darker the color, the more times they have been in a conflict/alliance together (depending on which button is pressed).
+        </p>
+      </div>
       <div id='adj-matrix'>
       </div>
     </section>
   </article>
+  <footer>
+    <div>
+      Created by <a href="https://jeffrey-chase.github.io/" target="_blank"> Jeffrey Chase </a> and <a href="https://github.com/juliannedelia" target="_blank">Julianne Delia</a> at American University in Washington, DC for CSC-435: Web Programming with Professor Bei Xiao.
+    </div>
+    <div>
+      Check out the code on <a href="https://jeffrey-chase.github.io/world_conflicts/"> our Github repository here</a>!
+    </div>
+  </footer>
 </body>
 <script src="scripts/graph.js"></script>
 <script src="scripts/map.js"></script>

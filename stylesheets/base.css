@@ -16,10 +16,12 @@ body {
 }
 
 
-header {
+header,
+section {
   overflow: hidden;
   width: 90%;
-  margin: 0 5% 500px 5%;
+  margin: 0 5% 0 5%;
+  padding-bottom: 300px;
 }
 
 h1 {
@@ -56,7 +58,7 @@ h4 {
   font-size: 1.618em;
   margin-bottom: 0;
   border-bottom: 3px solid white;
-  
+
 }
 
 a {
@@ -70,15 +72,57 @@ a:hover {
   color: #ff7777;
 }
 
-#intro {
-  position: relative;
-}
-
-#intro p {
+p {
   text-align: justify;
   width: 40%;
   position: relative;
+}
+
+
+
+#intro {
+  position: relative;
+  transition-duration: 500ms;
+}
+
+#intro p {
+  font-size: 1.25em;
+}
+
+#intro p {
   left: 60%;
+}
+
+#intro blockquote,
+#intro cite {
+  display: block;
+  line-height: 1em;
+  font-family: 'Playfair Display', 'Georgia', 'Times New Roman', 'Times', serif;
+  width: 40%;
+  padding-left: 3rem;
+}
+
+#intro blockquote {
+  font-size: 4.236em;
+  margin: 40px 0 10px 60%;
+  position: relative;
+
+}
+
+#intro blockquote::before {
+  border-left: 5px solid white;
+  content: "";
+  font-size: 4em;
+  top: 10px;
+  left: 0;
+  position: absolute;
+  height: 66%;
+  width: 0;
+}
+
+#intro cite {
+  font-size: 1.618em;
+  margin: 25px 0 50px 60%;
 }
 
 input,
@@ -104,12 +148,14 @@ button:focus {
   outline: none;
 }
 
-#alliances-adj-matrix-switch:hover {
+#alliances-adj-matrix-switch:hover,
+#alliances-adj-matrix-switch.selected {
   border-color: #55ff55;
   color: #55ff55;
 }
 
-#conflicts-adj-matrix-switch:hover {
+#conflicts-adj-matrix-switch:hover,
+#conflicts-adj-matrix-switch.selected {
   border-color: #ff0000;
   color: #ff0000;
 }
@@ -165,19 +211,51 @@ svg:active {
   position: relative;
 }
 
+#search-container {
+  z-index: 2;
+}
+
 #timeline-story {
   background: rgb(30, 30, 30, 0.5);
-  padding-left: 20px;
+  padding: 0 10px 0 20px;
   position: absolute;
-  right: 20px; top: 0;
+  right: 20px;
+  top: 0;
   width: 25%;
+}
+
+#timeline-story dt {
+  font-size: 1.125em;
+}
+
+#timeline-story dd {
+  font-size: 0.875em;
 }
 
 .infoshow {
   stroke: #ccc;
 }
 
-#conflict-graph svg:hover, #conflict-map svg:hover{ outline: 1px solid #555; }
+#conflict-graph svg:hover,
+#conflict-map svg:hover {
+  outline: 1px solid #555;
+}
+
+section .description p {
+  width: 60%;
+}
+
+section:nth-child(even) h3 {
+  text-align: right;
+}
+
+section:nth-child(even) .description p {
+  left: 40%;
+}
+
+section .description p:last-child {
+  margin-bottom: 100px;
+}
 
 text {
   fill: white;
@@ -219,6 +297,29 @@ div {
   width: 90%;
 }
 
-#intro {
-  transition-duration: 500ms;
+
+
+#adj-matrix svg {
+  cursor: crosshair;
+}
+
+footer::before {
+  content: "";
+  border-top: 2px solid white;
+  position: absolute;
+  width: 20%;
+  left: 40%;
+  top: 0px;
+}
+
+footer {
+  color: #777;
+  padding: 20px 0 30px 0;
+  position: relative;
+  text-align: center;
+}
+
+footer div {
+  margin: 10px auto;
+  width: 50%;
 }

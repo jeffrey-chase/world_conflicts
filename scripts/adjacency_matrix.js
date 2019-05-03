@@ -157,52 +157,55 @@
         }
       });
 
-      svg.append('g').append("line")
-        .attr('x1',190) 
-        .attr('x2',width)
-        .attr('y1',190)
-        .attr('y2',190)
-        .attr('stroke', '#999')
-        .attr('stroke-width', 1)
-        .attr('class','xaxis')
-      ;
+    svg.append('g').append("line")
+      .attr('x1', 190)
+      .attr('x2', width)
+      .attr('y1', 190)
+      .attr('y2', 190)
+      .attr('stroke', '#999')
+      .attr('stroke-width', 1)
+      .attr('class', 'xaxis');
 
-      svg.append('g').append("line")
-        .attr('x1',190)
-        .attr('x2',190)
-        .attr('y1',190)
-        .attr('y2',height)
-        .attr('stroke', '#999')
-        .attr('stroke-width', 1)
-        .attr('class','yaxis')
-      ;
+    svg.append('g').append("line")
+      .attr('x1', 190)
+      .attr('x2', 190)
+      .attr('y1', 190)
+      .attr('y2', height)
+      .attr('stroke', '#999')
+      .attr('stroke-width', 1)
+      .attr('class', 'yaxis');
 
-      svg.on('mouseover',function(d){
-        // var xevent = d3.event.clientX;
-        // var yevent = d3.event.clientY;
-        var coordinates = d3.mouse(this);
-        var x = coordinates[0];
-        var y = coordinates[1];
-        if(x >= 200 && y >= 200)
-        {
-          svg.select('line.xaxis')
-            .attr('y1',y)
-            .attr('y2',y);
-          svg.select('line.yaxis')
-            .attr('x1',x)
-            .attr('x2',x);
-        }
-        else
-        {
-          svg.select('line.xaxis')
-            .attr('y1',190)
-            .attr('y2',190);
-          svg.select('line.yaxis')
-            .attr('x1',190)
-            .attr('x2',190);
-        }
+    svg.on('mouseover', function (d) {
+      var coordinates = d3.mouse(this);
+      var x = coordinates[0];
+      var y = coordinates[1];
+      if (x >= 191 && y >= 191) {
+        svg.select('line.xaxis')
+          .attr('y1', y)
+          .attr('y2', y);
+        svg.select('line.yaxis')
+          .attr('x1', x)
+          .attr('x2', x);
+      } else {
+        svg.select('line.xaxis')
+          .attr('y1', 190)
+          .attr('y2', 190);
+        svg.select('line.yaxis')
+          .attr('x1', 190)
+          .attr('x2', 190);
+      }
 
-      });
+    });
+
+    svg.on('mouseout', function (d) {
+      svg.select('line.xaxis')
+        .attr('y1', 190)
+        .attr('y2', 190);
+      svg.select('line.yaxis')
+        .attr('x1', 190)
+        .attr('x2', 190);
+
+    });
   }
 
 
@@ -231,29 +234,34 @@
       .attr('class', 'adj-matrix-switch')
       .text('Conflicts  ')
       .on('click', () => {
+        allianceButton.classed('selected', false)
+        conflictButton.classed('selected', true);
+
         adjMatrixMaker(nodes,
           linksConflicts,
           converter,
           adjMatrixConflicts,
                        ['#ff9999', '#ff0000']);
-      })
+      });
 
-    conflictButton.dispatch('click');
 
     let allianceButton = buttonContainer.append('button')
       .attr('id', 'alliances-adj-matrix-switch')
       .attr('class', 'adj-matrix-switch')
       .text('Alliances')
       .on('click', () => {
+        conflictButton.classed('selected', false)
+        allianceButton.classed('selected', true);
+
         adjMatrixMaker(nodes,
           linksAlliances,
           converter,
           adjMatrixAlliances,
                        ['#77cc77', '#00cc00']);
 
-      })
-
-
+      });
+    
+        conflictButton.dispatch('click');
 
   });
 

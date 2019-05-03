@@ -38,20 +38,6 @@
     }
 
 
-
-
-    //  let links = svg_conflict.append('g')
-    //    .attr('class', 'links')
-    //    .selectAll("path.conflict")
-    //    .data(conflicts)
-    //    .enter().append('path')
-    //    .attr('class', 'conflict')
-    //    .attr('fill', 'none')
-    //    .attr('stroke-width', getLinkSize)
-    //    .attr('stroke', '#ff9999')
-    //    .style('opacity', 0)
-
-
     svg_conflict.call(
       d3.zoom().on('zoom', () => {
         svg_conflict.selectAll('g.links, g.nodes').attr('transform', d3.event.transform);
@@ -120,7 +106,7 @@
       .attr('class', 'graph-labels')
       .text(function (d) {
         try {
-          console.log(converter[d.id]['name']);
+           ;
           return converter[d.id]['name'];
         } catch (err) {
           return '';
@@ -193,13 +179,13 @@
 
 
   Promise.all([
-  d3.json('../data/formatted_data/alliances_all.json'),  // 0
-  d3.json('../data/formatted_data/alliances_primary.json'),  // 1
-  d3.json('../data/formatted_data/ccode_converter.json'),  // 2
-  d3.json('../data/formatted_data/conflicts_all.json'),  // 3
-  d3.json('../data/formatted_data/conflicts_primary.json'),  // 4
-  d3.json('../data/formatted_data/nodes_all.json'),  // 5
-  d3.json('../data/formatted_data/nodes_primary.json') // 6
+  d3.json('data/formatted_data/alliances_all.json'),  // 0
+  d3.json('data/formatted_data/alliances_primary.json'),  // 1
+  d3.json('data/formatted_data/ccode_converter.json'),  // 2
+  d3.json('data/formatted_data/conflicts_all.json'),  // 3
+  d3.json('data/formatted_data/conflicts_primary.json'),  // 4
+  d3.json('data/formatted_data/nodes_all.json'),  // 5
+  d3.json('data/formatted_data/nodes_primary.json') // 6
 ]).then((d) => {
     let alliancesAll = d[0];
     let alliancesPrimary = d[1];

@@ -2,7 +2,7 @@
   let parent = d3.select('#timeline');
 
   Promise.all([
-    d3.csv('data/raw_data/ucdp-prio-acd-181.csv'),
+    d3.csv('data/formatted_data/country_conflicts.csv'),
     d3.json('data/formatted_data/ccode_converter.json')
   ]).then(function (d) {
     let conflicts = d[0];
@@ -26,13 +26,13 @@
       .sortKeys(d3.ascending)
       .rollup((d) => {
         return {
-          major: d.filter((e) => e.intensity_level === "2"),
-          minor: d.filter((e) => e.intensity_level === "1")
+          major: d.filter((e) => e.intensity_level === "2: War"),
+          minor: d.filter((e) => e.intensity_level === "1: Minor Conflict")
         };
       })
       .entries(conflicts);
 
-    console.log(nested);
+     ;
 
     let width = 1000;
     let height = 600;
@@ -70,8 +70,8 @@
       points.data(el.value.minor).enter().append('circle')
         .attr('class', 'conflicts')
         .attr('r', 0.1)
-        .style('fill', (d) => d.intensity_level === '2' ? '#ff0000' : '#660000')
-        .style('opacity', (d) => d.intensity_level === '2' ? 1.0 : 0.7)
+        .style('fill', '#660000')
+        .style('opacity', 0.7)
         .attr('cx', xScale(year))
         .attr('cy', height + 20)
         .transition()
@@ -79,8 +79,8 @@
           return (year - 1946) * 90 + i * 2;
         })
         .duration(2000)
-        .style('stroke', (d) => d.intensity_level === '2' ? '' : '#ff0000')
-        .attr('r', (d) => d.intensity_level === '2' ? 5 : 3)
+        .style('stroke', '#ff0000')
+        .attr('r', 3)
         .attr('cy', (d, i) => {
           return yScaleMinor(i);
         })
@@ -89,7 +89,7 @@
       points.data(el.value.major).enter().append('circle')
         .attr('class', 'conflicts')
         .attr('r', 0.1)
-        .style('fill', (d) => d.intensity_level === '2' ? '#ff0000' : '#660000')
+        .style('fill', '#ff0000')
         .attr('cx', xScale(year))
         .attr('cy', -10)
         .transition()
@@ -97,8 +97,8 @@
           return (year - 1946) * 90 + i * 2;
         })
         .duration(2000)
-        .style('opacity', (d) => d.intensity_level === '2' ? 1.0 : 0.7)
-        .attr('r', (d) => d.intensity_level === '2' ? 5 : 3)
+        .style('opacity', 1)
+        .attr('r', 5)
         .attr('cy', (d, i) => {
           return yScaleMajor(i);
         })
@@ -115,20 +115,20 @@
       d3.select('.infoshow').classed('infoshow', false);
       d3.select(this).classed('infoshow', true);
       let container = parent.select('#timeline-story');
-      
+
 
 
       let filter = /(^gwno)|(actors)|(Date$)|(version)|(region)|(_id$)|(^ep)|(^cumul)|(prec)|(2$)/
 
       container.selectAll("*").remove();
-      
+
       container
         .append('h4')
         .text('Conflict Info');
-      
+
       let list = container.append('dl');
       for (let i in d) {
-        if (!i.match(filter)) {
+        if (!i.match(filter) && i !== '') {
           list
             .append('dt')
             .text(i.replace(/_/gi, ' '));
@@ -173,6 +173,26 @@
       .style('fill', 'white')
       .style('text-anchor', 'end');
 
+    let labels = svg.append('g').attr('class', 'labels')
+
+    labels
+      .append('text')
+      .text('Major Conflicts')
+      .attr('x', 50)
+      .attr('y', 250)
+      .style('font-size', '1.1em')
+      .style('text-anchor', 'start')
+      .attr('transform', 'rotate(270, 50, 250)');
+    
+    labels
+      .append('text')
+      .text('Minor Conflicts')
+      .attr('x', 50)
+      .attr('y', 290)
+      .style('font-size', '1.1em')
+      .style('font-weight', 'bold')
+      .style('text-anchor', 'end')
+      .attr('transform', 'rotate(270, 50, '+(290)+')');
 
     let countries = [];
 
@@ -183,7 +203,7 @@
       });
     }
 
-    console.log(countries);
+     ;
 
     d3.select('#country-search')
       .on('input', function (e) {
@@ -232,10 +252,10 @@
 
   function regexListMatch(search, list, column) {
     let re = new RegExp('' + search + '', 'gi');
-    console.log(re);
+     ;
 
     let matches = list.filter((e) => re.test(e[column]));
-    console.log(matches);
+     ;
     return matches;
   }
 })();
