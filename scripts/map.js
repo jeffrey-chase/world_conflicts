@@ -172,6 +172,7 @@
           d3.select("#country" + d.properties.iso_a3).classed("country-on", true);
           boxZoom(path.bounds(d), path.centroid(d), 20);
         });
+      
       countryLabels
         .append("text")
         .attr("class", "countryName")

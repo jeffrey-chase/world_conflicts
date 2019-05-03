@@ -82,11 +82,11 @@ p {
 
 #intro {
   position: relative;
-  transition-duration: 500ms;
+  transition-duration: 250ms;
 }
 
 #intro p {
-  font-size: 1.25em;
+  font-size: 1.125em;
 }
 
 #intro p {
@@ -170,16 +170,22 @@ button:focus {
 
 #country-search {
   font-size: 1.25em;
+  margin-bottom: 0;
 }
 
 #search-matches ul {
   background: rgba(10, 10, 10, 0.8);
+  color: #999;
+  cursor: pointer;
   position: absolute;
   list-style: none;
+  left: 10px;
   padding-left: 15px;
   margin-top: 0;
   width: 100%;
 }
+
+#search-matches li:hover {color: #d99}
 
 circle.highlight {
   stroke: white !important;
@@ -211,6 +217,14 @@ svg:active {
   position: relative;
 }
 
+#timeline svg {
+  cursor: default;
+}
+
+#timeline svg .conflicts {
+  cursor: pointer;
+}
+
 #search-container {
   z-index: 2;
 }
@@ -239,6 +253,11 @@ svg:active {
 #conflict-graph svg:hover,
 #conflict-map svg:hover {
   outline: 1px solid #555;
+}
+
+#conflict-map .country:hover {
+  stroke-width: 2;
+  stroke: white;
 }
 
 section .description p {
