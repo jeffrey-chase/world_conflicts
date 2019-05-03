@@ -1,6 +1,7 @@
 (function () {
 
   window.addEventListener('load', () => {
+    window.scroll(0,0);
     randomExplosions(d3.select('header'));
     var p = document.getElementById("intro");
     p.style.opacity = 0;
