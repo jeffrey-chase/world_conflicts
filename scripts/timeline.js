@@ -32,6 +32,8 @@
       })
       .entries(conflicts);
 
+    console.log(nested);
+
     let width = 1000;
     let height = 600;
 
@@ -47,15 +49,23 @@
       .domain([d3.max(nested, (d) => d.value.major.length), 0])
       .range([10, height - 350]);
 
+
+    let infoContainer = parent.append('div')
+      .attr('id', 'timeline-story')
+
+
+
     let svg = parent.append('svg')
       .attr('width', width)
       .attr('height', height);
+
 
     let points = svg.selectAll('circle.conflicts');
 
     nested.forEach((el) => {
       let year = +el.key;
       let conflicts = el.values;
+
 
       points.data(el.value.minor).enter().append('circle')
         .attr('class', 'conflicts')
@@ -95,7 +105,40 @@
         .ease(d3.easePoly);
       //        .ease(d3.easeBounceOut);
       //        .ease(d3.easeCubicInOut);
+
+
     });
+    svg.selectAll('circle.conflicts')
+      .on('mouseover', infoShower);
+
+    function infoShower(d) {
+      d3.select('.infoshow').classed('infoshow', false);
+      d3.select(this).classed('infoshow', true);
+      let container = parent.select('#timeline-story');
+      
+
+
+      let filter = /(^gwno)|(actors)|(Date$)|(version)|(region)|(_id$)|(^ep)|(^cumul)|(prec)|(2$)/
+
+      container.selectAll("*").remove();
+      
+      container
+        .append('h4')
+        .text('Conflict Info');
+      
+      let list = container.append('dl');
+      for (let i in d) {
+        if (!i.match(filter)) {
+          list
+            .append('dt')
+            .text(i.replace(/_/gi, ' '));
+
+          list.append('dd')
+            .text(d[i]);
+        }
+
+      }
+    }
 
     let axis = svg.append('g').attr('class', 'axis');
 
@@ -150,36 +193,36 @@
         let listContainer = d3.select('#search-matches').select('ul')
 
         listContainer.selectAll('li').remove();
-      
-      svg.selectAll('circle')
-        .classed('highlight', function(d){
-        for (let i in list){
-          for (let j in d.actors){
-            if(list[i]['code'] == d.actors[j]){
-              return true;
+
+        svg.selectAll('circle')
+          .classed('highlight', function (d) {
+            for (let i in list) {
+              for (let j in d.actors) {
+                if (list[i]['code'] == d.actors[j]) {
+                  return true;
+                }
+              }
             }
-          }
-        }
-        return false;
-      })
+            return false;
+          })
 
         listContainer.selectAll('li').data(list).enter().append('li')
           .text((d) => d.name)
           .on('click', function (d) {
             let selected = d.code;
             document.getElementById('country-search').value = this.textContent;
-            
+
             svg.selectAll('circle')
               .classed('highlight', function (d) {
                 let codes = d.actors;
-                for(let i in codes){
-                  if(codes[i] == selected){
+                for (let i in codes) {
+                  if (codes[i] == selected) {
                     return true;
                   }
                 }
-              return false;
+                return false;
               });
-          
+
             listContainer.selectAll('*').remove();
           });
       })

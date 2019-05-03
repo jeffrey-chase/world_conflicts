@@ -1,3 +1,13 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
 body {
   background: black;
   color: #D8DBE2;
@@ -16,7 +26,7 @@ h1 {
   font-size: 11.089em;
   margin: 0 0 200px 0;
   font-weight: bold;
-/*  text-shadow: 3px 3px 5px #f9f9f9;*/
+  /*  text-shadow: 3px 3px 5px #f9f9f9;*/
 }
 
 h1::first-letter {
@@ -42,6 +52,13 @@ h3 {
   font-size: 4.236em;
 }
 
+h4 {
+  font-size: 1.618em;
+  margin-bottom: 0;
+  border-bottom: 3px solid white;
+  
+}
+
 a {
   border-bottom: 2px solid red;
   color: red;
@@ -64,7 +81,8 @@ a:hover {
   left: 60%;
 }
 
-input, button {
+input,
+button {
   background: black;
   border: 2px solid white;
   color: white;
@@ -73,7 +91,8 @@ input, button {
   margin: 10px;
 }
 
-input:focus, button:focus {
+input:focus,
+button:focus {
   outline: 2px solid #ff2222;
 }
 
@@ -142,9 +161,23 @@ svg:active {
   cursor: grabbing
 }
 
-svg:hover{
-  border: 1px solid #555;
+#timeline {
+  position: relative;
 }
+
+#timeline-story {
+  background: rgb(30, 30, 30, 0.5);
+  padding-left: 20px;
+  position: absolute;
+  right: 20px; top: 0;
+  width: 25%;
+}
+
+.infoshow {
+  stroke: #ccc;
+}
+
+#conflict-graph svg:hover, #conflict-map svg:hover{ outline: 1px solid #555; }
 
 text {
   fill: white;
@@ -172,32 +205,20 @@ div {
   fill: black;
 }
 
-#conflict-map
-{
+#conflict-map {
   margin: auto;
   display: flex;
   position: relative;
   width: 90%;
 }
 
-#conflict-graph
-{
+#conflict-graph {
   margin: auto;
   display: flex;
   position: relative;
   width: 90%;
 }
 
-#intro
-{
+#intro {
   transition-duration: 500ms;
 }
-
-
-
-
-
-
-
-
-

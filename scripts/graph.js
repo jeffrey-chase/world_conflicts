@@ -2,8 +2,8 @@
 
   let graph = function (data, parent, converter) {
     
-    const width = 900;
-    const height = 500;
+    const width = 1100;
+    const height = 900;
 
     let simulation = d3.forceSimulation().alpha(0.5)
       .force('link', d3.forceLink().id((d) => {
@@ -32,10 +32,6 @@
         return +d.value
       })))
       .range([0, 1]);
-
-    function getLinkColor(d) {
-      return d3.interpolatePlasma(linkColor(+d.value));
-    }
 
     function getLinkSize(d) {
       return linkSize(+d.value);

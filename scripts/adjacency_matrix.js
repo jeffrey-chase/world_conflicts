@@ -1,8 +1,8 @@
 (function () {
   let parent = d3.select('#adj-matrix');
 
-  let width = 1200,
-    height = 1200;
+  let width = 1100,
+    height = 1100;
 
   let folder = 'data/formatted_data/';
 
@@ -35,7 +35,7 @@
       .domain([1, d3.max(links, (d) => d.value)])
       .range(colors);
 
-    let cellSize = 1000 / nodes.length;
+    let cellSize = 900 / nodes.length;
 
     svg.append('g').selectAll('rect.grid')
       .data(nodes).enter()
