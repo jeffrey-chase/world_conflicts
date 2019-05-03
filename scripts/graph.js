@@ -1,7 +1,7 @@
 (function () {
 
   let graph = function (data, parent, converter) {
-
+    
     const width = 900;
     const height = 500;
 
@@ -11,7 +11,7 @@
       }).distance(100))
       .force('charge', d3.forceManyBody().strength(-30))
       .force('center', d3.forceCenter(width / 2, height / 2));
-
+    
     let svg_conflict = parent
       .append('svg')
       .attr('width', width)

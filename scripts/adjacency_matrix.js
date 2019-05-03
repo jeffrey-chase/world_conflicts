@@ -4,23 +4,14 @@
   let width = 1200,
     height = 1200;
 
-  let svg = parent.append('svg')
-    .attr('height', height)
-    .attr('width', width);
-
   let folder = 'data/formatted_data/';
 
-  Promise.all([
-    d3.json(folder + 'nodes_all.json'),
-    d3.json(folder + 'conflicts_all.json'),
-    d3.json(folder + 'ccode_converter.json'),
-    d3.json(folder + 'conflict_adjacency_matrix.json')
-  ]).then((d) => {
-    let nodes = d[0];
-    let links = d[1];
-    let converter = d[2];
-    let adjMatrix = d[3];
-    console.log(Object.keys(adjMatrix).length);
+  function adjMatrixMaker(nodes, links, converter, adjMatrix, colors) {
+    parent.select('svg').remove();
+
+    let svg = parent.append('svg')
+      .attr('height', height)
+      .attr('width', width);
 
     nodes = nodes.filter((d) => converter.hasOwnProperty(d.id));
     let nodePositions = {}
@@ -40,9 +31,9 @@
 
 
 
-    let colorScale = d3.scaleLinear()
+    let colorScale = d3.scaleSqrt()
       .domain([1, d3.max(links, (d) => d.value)])
-      .range(['#ffaaaa', '#ff0000']);
+      .range(colors);
 
     let cellSize = 1000 / nodes.length;
 
@@ -90,7 +81,7 @@
 
       })
       .attr('fill', 'black')
-      .transition().delay((d, i) => 300 + 10 * i).duration(2000)
+      .transition().delay((d, i) => 100 + i).duration(2000)
       .attr('fill', (d) => {
         try {
           value = adjMatrix[d.source][d.target];
@@ -118,7 +109,7 @@
         return isNaN(value) ? -200 : value;
       })
       .attr('fill', 'black')
-      .transition().delay((d, i) => 300 + 10 * i).duration(2000)
+      .transition().delay((d, i) => 100 + i).duration(2000)
       .attr('fill', (d) => {
         try {
           let value = adjMatrix[d.source][d.target];
@@ -165,6 +156,58 @@
           return '';
         }
       });
+  }
+
+
+
+
+  Promise.all([
+    d3.json(folder + 'nodes_all.json'),
+    d3.json(folder + 'conflicts_all.json'),
+    d3.json(folder + 'alliances_all.json'),
+    d3.json(folder + 'ccode_converter.json'),
+    d3.json(folder + 'conflict_adjacency_matrix.json'),
+    d3.json(folder + 'alliance_adjacency_matrix.json')
+  ]).then((d) => {
+    let nodes = d[0];
+    let linksConflicts = d[1];
+    let linksAlliances = d[2];
+    let converter = d[3];
+    let adjMatrixConflicts = d[4];
+    let adjMatrixAlliances = d[5];
+
+
+    let buttonContainer = parent.append('div').attr('id', 'adj-matrix-switches')
+
+    let conflictButton = buttonContainer.append('button')
+      .attr('id', 'conflicts-adj-matrix-switch')
+      .attr('class', 'adj-matrix-switch')
+      .text('Conflicts  ')
+      .on('click', () => {
+        adjMatrixMaker(nodes,
+          linksConflicts,
+          converter,
+          adjMatrixConflicts,
+                       ['#ff9999', '#ff0000']);
+      })
+
+    conflictButton.dispatch('click');
+
+    let allianceButton = buttonContainer.append('button')
+      .attr('id', 'alliances-adj-matrix-switch')
+      .attr('class', 'adj-matrix-switch')
+      .text('Alliances')
+      .on('click', () => {
+        adjMatrixMaker(nodes,
+          linksAlliances,
+          converter,
+          adjMatrixAlliances,
+                       ['#77cc77', '#00cc00']);
+
+      })
+
+
+
   });
 
 })();
