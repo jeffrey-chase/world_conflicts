@@ -2,8 +2,19 @@
 
   window.addEventListener('load', () => {
     randomExplosions(d3.select('header'));
+    var p = document.getElementById("intro");
+    p.style.opacity = 0;
+    var scale = d3.scaleLinear()
+      .domain([0, parseFloat(p.getBoundingClientRect().top)])
+      .range([1,0]);
+    window.onscroll = function() {
+      console.log(scale(parseFloat(p.getBoundingClientRect().top)))
+      p.style.opacity = scale(parseFloat(p.getBoundingClientRect().top));
+    };
   });
 
+
+  
 
   function randomExplosions(parent) {
     let width = parseFloat(window.getComputedStyle(parent.node()).width);

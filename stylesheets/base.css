@@ -121,7 +121,7 @@ circle.highlight {
 }
 
 svg {
-  border: 2px solid white;
+  /*border: 2px solid white;*/
   cursor: grab;
   margin: 0 auto;
   shape-rendering: geometricPrecision;
@@ -140,6 +140,10 @@ svg.background {
 
 svg:active {
   cursor: grabbing
+}
+
+svg:hover{
+  border: 1px solid #555;
 }
 
 text {
@@ -167,3 +171,33 @@ div {
 .countryLabelBg {
   fill: black;
 }
+
+#conflict-map
+{
+  margin: auto;
+  display: flex;
+  position: relative;
+  width: 90%;
+}
+
+#conflict-graph
+{
+  margin: auto;
+  display: flex;
+  position: relative;
+  width: 90%;
+}
+
+#intro
+{
+  transition-duration: 500ms;
+}
+
+
+
+
+
+
+
+
+
