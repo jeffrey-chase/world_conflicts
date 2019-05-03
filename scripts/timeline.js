@@ -3,8 +3,8 @@
   window.timeLine = false;
 
   window.addEventListener('scroll', () => {
-
-    if (parent.node().getBoundingClientRect().top < 300 && !window.timeLine) {
+    let height = window.innerHeight;
+    if (parent.node().getBoundingClientRect().top < height*0.9 && !window.timeLine) {
       Promise.all([
     d3.csv('data/formatted_data/country_conflicts.csv'),
     d3.json('data/formatted_data/ccode_converter.json')

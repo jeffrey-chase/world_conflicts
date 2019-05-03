@@ -1,7 +1,7 @@
 (function () {
 
   let graph = function (data, parent, converter) {
-    
+
     const width = 1100;
     const height = 900;
 
@@ -11,7 +11,7 @@
       }).distance(100))
       .force('charge', d3.forceManyBody().strength(-30))
       .force('center', d3.forceCenter(width / 2, height / 2));
-    
+
     let svg_conflict = parent
       .append('svg')
       .attr('width', width)
@@ -105,8 +105,7 @@
     let labels = nodes.append('text')
       .attr('class', 'graph-labels')
       .text(function (d) {
-        try {
-           ;
+        try {;
           return converter[d.id]['name'];
         } catch (err) {
           return '';
@@ -116,39 +115,39 @@
       .attr('y', 3);
 
     function ticked() {
-          links
-            .attr("d", function (d) {
-              let dx = d.target.x - d.source.x,
-                dy = d.target.y - d.source.y,
-                dr = Math.sqrt(dx * dx + dy * dy);
-//                midx = (dx - dr)/2, midy = (dy - dr)/2;
-            
-              return "M" + d.source.x  + ', ' + d.source.y +
-                " l " + dx + ', ' + dy;
-//              return "M" + d.source.x + ", " + d.source.y + 
-//                " s " + midx + ", " + midy + ' ' + dx + ', ' + dy;
-            });
-//
-//      links
-//        .attr("x1", function (d) {
-//          return d.source.x;
-//        })
-//        .attr("y1", function (d) {
-//          return d.source.y;
-//        })
-//        .attr("x2", function (d) {
-//          return d.target.x;
-//        })
-//        .attr("y2", function (d) {
-//          return d.target.y;
-//        });
+      links
+        .attr("d", function (d) {
+          let dx = d.target.x - d.source.x,
+            dy = d.target.y - d.source.y,
+            dr = Math.sqrt(dx * dx + dy * dy);
+          //                midx = (dx - dr)/2, midy = (dy - dr)/2;
+
+          return "M" + d.source.x + ', ' + d.source.y +
+            " l " + dx + ', ' + dy;
+          //              return "M" + d.source.x + ", " + d.source.y + 
+          //                " s " + midx + ", " + midy + ' ' + dx + ', ' + dy;
+        });
+      //
+      //      links
+      //        .attr("x1", function (d) {
+      //          return d.source.x;
+      //        })
+      //        .attr("y1", function (d) {
+      //          return d.source.y;
+      //        })
+      //        .attr("x2", function (d) {
+      //          return d.target.x;
+      //        })
+      //        .attr("y2", function (d) {
+      //          return d.target.y;
+      //        });
 
 
 
       nodes
         .attr("transform", function (d) {
-//                  d.x = Math.max(5, Math.min(width - 5, d.x));
-//                  d.y = Math.max(5, Math.min(height - 5, d.y))
+          //                  d.x = Math.max(5, Math.min(width - 5, d.x));
+          //                  d.y = Math.max(5, Math.min(height - 5, d.y))
           return "translate(" + d.x + "," + d.y + ")";
         })
     }
@@ -179,18 +178,28 @@
 
 
   Promise.all([
-  d3.json('data/formatted_data/ccode_converter.json'),  // 0
-  d3.json('data/formatted_data/conflicts_primary.json'),  // 1
+  d3.json('data/formatted_data/ccode_converter.json'), // 0
+  d3.json('data/formatted_data/conflicts_primary.json'), // 1
   d3.json('data/formatted_data/nodes_primary.json') // 2
 ]).then((d) => {
+    window.graphShow = false;
     let codeConverter = d[0];
     let conflictsPrimary = d[1];
     let countriesPrimary = d[2];
+    let parent = d3.select('#conflict-graph');
 
-    graph({
-      nodes: countriesPrimary,
-      links: conflictsPrimary
-    }, d3.select('#conflict-graph'), codeConverter);
+    window.addEventListener('scroll', () => {
+      let height = window.innerHeight;
+      if (parent.node().getBoundingClientRect().top < height*.9 && !window.graphShow) {
+        graph({
+          nodes: countriesPrimary,
+          links: conflictsPrimary
+        }, parent, codeConverter);
+        window.graphShow = true;
+      }
+
+    })
+
   });
 
 })();
