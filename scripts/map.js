@@ -15,9 +15,9 @@
         initiateZoom();
     });*/
 
-  Promise.all([d3.json("https://raw.githubusercontent.com/jeffrey-chase/world_conflicts/master/data/custom.geo.json"),
-                d3.json("/data/formatted_data/cname_convert.json"),
-                d3.json("/data/formatted_data/country_conflict_sums.json")]).then(
+  Promise.all([d3.json("data/custom.geo.json"),
+                d3.json("data/formatted_data/cname_convert.json"),
+                d3.json("data/formatted_data/country_conflict_sums.json")]).then(
 
     function(d){
 
