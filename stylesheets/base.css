@@ -31,20 +31,18 @@ h1 {
   /*  text-shadow: 3px 3px 5px #f9f9f9;*/
 }
 
-h1::first-letter {
-  font-size: 1.25em;
-}
-
-
-
 h1,
 h2,
 h3 {
-  /*  color: #ff0000;*/
   font-family: 'Playfair Display', 'Georgia', 'Times New Roman', 'Times', serif;
   font-weight: normal;
 
 }
+
+h1::first-letter {
+  font-size: 1.25em;
+}
+
 
 h2 {
   font-size: 6.854em;
@@ -73,8 +71,6 @@ a:hover {
 }
 
 p {
-  text-align: justify;
-  width: 40%;
   position: relative;
 }
 
@@ -89,22 +85,18 @@ p {
   font-size: 1.125em;
 }
 
-#intro p {
-  left: 60%;
-}
 
 #intro blockquote,
 #intro cite {
   display: block;
   line-height: 1em;
   font-family: 'Playfair Display', 'Georgia', 'Times New Roman', 'Times', serif;
-  width: 40%;
   padding-left: 3rem;
 }
 
 #intro blockquote {
   font-size: 4.236em;
-  margin: 40px 0 10px 60%;
+  margin: 40px 0 10px 10%;
   position: relative;
 
 }
@@ -122,7 +114,7 @@ p {
 
 #intro cite {
   font-size: 1.618em;
-  margin: 25px 0 50px 60%;
+  margin: 25px 0 50px 10%;
 }
 
 input,
@@ -185,7 +177,9 @@ button:focus {
   width: 100%;
 }
 
-#search-matches li:hover {color: #d99}
+#search-matches li:hover {
+  color: #d99
+}
 
 circle.highlight {
   stroke: white !important;
@@ -260,17 +254,6 @@ svg:active {
   stroke: white;
 }
 
-section .description p {
-  width: 60%;
-}
-
-section:nth-child(even) h3 {
-  text-align: right;
-}
-
-section:nth-child(even) .description p {
-  left: 40%;
-}
 
 section .description p:last-child {
   margin-bottom: 100px;
@@ -340,5 +323,42 @@ footer {
 
 footer div {
   margin: 10px auto;
-  width: 50%;
+  width: 80%;
+}
+
+
+@media only screen and (min-width: 500px) {
+
+  p {
+    text-align: justify;
+    width: 40%;
+  }
+
+  #intro p {
+    left: 60%;
+  }
+
+  footer div {
+    width: 50%;
+  }
+
+
+  section .description p {
+    width: 60%;
+  }
+
+  section:nth-child(even) h3 {
+    text-align: right;
+  }
+
+  section:nth-child(even) .description p {
+    left: 40%;
+  }
+
+  #intro blockquote,
+  #intro cite {
+    margin-left: 60%;
+    width: 40%;
+
+  }
 }
