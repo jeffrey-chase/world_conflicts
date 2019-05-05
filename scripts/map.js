@@ -2,7 +2,7 @@
   /*
     Function to create the map
   */
-  let w = 1200; // width of map
+  let w = 2000; // width of map
   let h = 750; // height of the map
 
   let minZoom;
@@ -73,7 +73,7 @@
         let projection = d3
           .geoNaturalEarth1() // projection type
           .center([0, 40]) // starting center
-          .scale([w / (5)]); // starting scale
+          .scale([h / (4)]); // starting scale
 
         // Color scale that turns the sums into a value between 0 and 1
         let color = d3.scaleLinear()
