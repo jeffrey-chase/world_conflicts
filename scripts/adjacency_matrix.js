@@ -133,7 +133,7 @@
       .text((d) => {
         try {
           return converter[d.id]['name'];
-        } catch {
+        } catch (e) {
           return '';
         }
       });
